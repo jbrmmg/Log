@@ -1,0 +1,26 @@
+package com.jbr.middletier.log.data;
+
+/**
+ * Created by jason on 20/01/17.
+ */
+public class ExternalLogTypeEntry {
+    private final String id;
+    private final String name;
+    private final String icon;
+
+    public ExternalLogTypeEntry(LogTypeEntry logTypeEntry) {
+        this.id = logTypeEntry.getId();
+        this.name = logTypeEntry.getName();
+        this.icon = logTypeEntry.getImage();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getIcon() { return icon; }
+}
