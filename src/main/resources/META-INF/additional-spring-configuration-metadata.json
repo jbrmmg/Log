@@ -1,0 +1,19 @@
+{
+  "properties": [
+    {
+      "name": "middle.tier.log.db.url",
+      "type": "java.lang.String",
+      "description": "URL for logging database."
+    },
+    {
+      "name": "middle.tier.log.db.username",
+      "type": "java.lang.String",
+      "description": "Username for logging database connection."
+    },
+    {
+      "name": "middle.tier.log.db.password",
+      "type": "java.lang.String",
+      "description": "Password for logging database connection."
+    }
+  ]
+}
