@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    url: ${db.dev.log.server}?autoReconnect=true&useSSL=false
+    username: ${db.dev.log.user}
+    password: ${db.dev.log.password}
+
+  boot:
+    admin:
+      client:
+        url: ${spring.admin.clienturl}
+
+  application:
+    name: Middle Tier Log (Development)
+
+  h2:
+    console:
+      enabled: false
+
+logging.file: /var/log/jbr/MiddleTier-LogDB-DEV.log
+logging:
+  file:
+    max-history: 3
+    max-size: 100MB
+
+server:
+  port: 10001
+
+log:
+  service-name: "Middle Tier Development"
+
+info:
+  app:
+    version: Development
