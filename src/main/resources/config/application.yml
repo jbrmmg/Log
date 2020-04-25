@@ -26,3 +26,8 @@ spring:
     default-schema:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
     contexts: default
+
+log:
+  db:
+    schedule:
+      rollover: 35 0 0 * * ?

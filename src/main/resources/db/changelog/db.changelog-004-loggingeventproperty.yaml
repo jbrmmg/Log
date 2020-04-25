@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: jason
+      changes:
+        - createTable:
+            tableName: logging_event_property
+            columns:
+              - column:
+                  name: event_id
+                  type: bigint(20)
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: mapped_key
+                  type: bigint(20)
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: mapped_value
+                  type: bigint(20)
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            constraintName: logging_event_property_ibfk_1
+            baseTableName: logging_event_property
+            baseColumnNames: event_id
+            referencedTableName: logging_event
+            referencedColumnNames: event_id

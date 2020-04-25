@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: 999
+      author: jason
+      context: test
+      changes:
+
+        - insert:
+            tableName: log_type
+            columns:
+              - column:
+                  name: id
+                  value: TST
+              - column:
+                  name: name
+                  value: Test Log
+              - column:
+                  name: image
+                  value: <svg/>
+              - column:
+                  name: class
+                  value: com.jbr.middletier.podcast.manage
+
+        - insert:
+            tableName: log_type
+            columns:
+              - column:
+                  name: id
+                  value: TST2
+              - column:
+                  name: name
+                  value: Test Log 2
+              - column:
+                  name: image
+                  value: <svg/>
+              - column:
+                  name: class
+                  value: com.jbr.middletier.backup.manage
