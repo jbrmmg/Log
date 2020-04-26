@@ -36,3 +36,437 @@ databaseChangeLog:
               - column:
                   name: class
                   value: com.jbr.middletier.backup.manage
+
+        - insert:
+            tableName: logging_event
+            columns:
+              - column:
+                  name: timestmp
+                  value: 1587859290000
+              - column:
+                  name: formatted_message
+                  value: Podcast Manager started up 2.
+              - column:
+                  name: logger_name
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: level_string
+                  value: INFO
+              - column:
+                  name: thread_name
+                  value: main
+              - column:
+                  name: caller_filename
+                  value: PodcastManager.java
+              - column:
+                  name: caller_class
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: caller_method
+                  value: <init>
+              - column:
+                  name: caller_line
+                  value: 56
+
+        - insert:
+            tableName: logging_event
+            columns:
+              - column:
+                  name: timestmp
+                  value: 1587859350000
+              - column:
+                  name: formatted_message
+                  value: Podcast Manager initialising.
+              - column:
+                  name: logger_name
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: level_string
+                  value: WARN
+              - column:
+                  name: thread_name
+                  value: main
+              - column:
+                  name: caller_filename
+                  value: PodcastManager.java
+              - column:
+                  name: caller_class
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: caller_method
+                  value: <init>
+              - column:
+                  name: caller_line
+                  value: 56
+
+        - insert:
+            tableName: logging_event
+            columns:
+              - column:
+                  name: timestmp
+                  value: 1587859200000
+              - column:
+                  name: formatted_message
+                  value: Podcast Manager started up.
+              - column:
+                  name: logger_name
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: level_string
+                  value: DEBUG
+              - column:
+                  name: thread_name
+                  value: main
+              - column:
+                  name: caller_filename
+                  value: PodcastManager.java
+              - column:
+                  name: caller_class
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: caller_method
+                  value: <init>
+              - column:
+                  name: caller_line
+                  value: 56
+
+        - insert:
+            tableName: logging_event
+            columns:
+              - column:
+                  name: timestmp
+                  value: 1587941999999
+              - column:
+                  name: formatted_message
+                  value: Podcast Manager stopped.
+              - column:
+                  name: logger_name
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: level_string
+                  value: WARN
+              - column:
+                  name: thread_name
+                  value: main
+              - column:
+                  name: caller_filename
+                  value: PodcastManager.java
+              - column:
+                  name: caller_class
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: caller_method
+                  value: <init>
+              - column:
+                  name: caller_line
+                  value: 56
+
+        - insert:
+            tableName: logging_event
+            columns:
+              - column:
+                  name: timestmp
+                  value: 1587772800000
+              - column:
+                  name: formatted_message
+                  value: Podcast Manager checking. 1
+              - column:
+                  name: logger_name
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: level_string
+                  value: INFO
+              - column:
+                  name: thread_name
+                  value: main
+              - column:
+                  name: caller_filename
+                  value: PodcastManager.java
+              - column:
+                  name: caller_class
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: caller_method
+                  value: <init>
+              - column:
+                  name: caller_line
+                  value: 56
+
+        - insert:
+            tableName: logging_event
+            columns:
+              - column:
+                  name: timestmp
+                  value: 1587855599999
+              - column:
+                  name: formatted_message
+                  value: Podcast Manager stopped.
+              - column:
+                  name: logger_name
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: level_string
+                  value: WARN
+              - column:
+                  name: thread_name
+                  value: main
+              - column:
+                  name: caller_filename
+                  value: PodcastManager.java
+              - column:
+                  name: caller_class
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: caller_method
+                  value: <init>
+              - column:
+                  name: caller_line
+                  value: 56
+
+        - insert:
+            tableName: logging_event
+            columns:
+              - column:
+                  name: timestmp
+                  value: 1587686400000
+              - column:
+                  name: formatted_message
+                  value: Podcast Manager started up. 2
+              - column:
+                  name: logger_name
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: level_string
+                  value: DEBUG
+              - column:
+                  name: thread_name
+                  value: main
+              - column:
+                  name: caller_filename
+                  value: PodcastManager.java
+              - column:
+                  name: caller_class
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: caller_method
+                  value: <init>
+              - column:
+                  name: caller_line
+                  value: 56
+
+        - insert:
+            tableName: logging_event
+            columns:
+              - column:
+                  name: timestmp
+                  value: 1587769199999
+              - column:
+                  name: formatted_message
+                  value: Podcast Manager stopped.
+              - column:
+                  name: logger_name
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: level_string
+                  value: WARN
+              - column:
+                  name: thread_name
+                  value: main
+              - column:
+                  name: caller_filename
+                  value: PodcastManager.java
+              - column:
+                  name: caller_class
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: caller_method
+                  value: <init>
+              - column:
+                  name: caller_line
+                  value: 56
+
+        - insert:
+            tableName: logging_event
+            columns:
+              - column:
+                  name: timestmp
+                  value: 1587600000000
+              - column:
+                  name: formatted_message
+                  value: Podcast Manager started up. 3
+              - column:
+                  name: logger_name
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: level_string
+                  value: DEBUG
+              - column:
+                  name: thread_name
+                  value: main
+              - column:
+                  name: caller_filename
+                  value: PodcastManager.java
+              - column:
+                  name: caller_class
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: caller_method
+                  value: <init>
+              - column:
+                  name: caller_line
+                  value: 56
+
+        - insert:
+            tableName: logging_event
+            columns:
+              - column:
+                  name: timestmp
+                  value: 1587682799999
+              - column:
+                  name: formatted_message
+                  value: Podcast Manager stopped.
+              - column:
+                  name: logger_name
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: level_string
+                  value: WARN
+              - column:
+                  name: thread_name
+                  value: main
+              - column:
+                  name: caller_filename
+                  value: PodcastManager.java
+              - column:
+                  name: caller_class
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: caller_method
+                  value: <init>
+              - column:
+                  name: caller_line
+                  value: 56
+
+        - insert:
+            tableName: logging_event
+            columns:
+              - column:
+                  name: timestmp
+                  value: 1587513600000
+              - column:
+                  name: formatted_message
+                  value: Podcast Manager started up. 4
+              - column:
+                  name: logger_name
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: level_string
+                  value: DEBUG
+              - column:
+                  name: thread_name
+                  value: main
+              - column:
+                  name: caller_filename
+                  value: PodcastManager.java
+              - column:
+                  name: caller_class
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: caller_method
+                  value: <init>
+              - column:
+                  name: caller_line
+                  value: 56
+
+        - insert:
+            tableName: logging_event
+            columns:
+              - column:
+                  name: timestmp
+                  value: 1587596399999
+              - column:
+                  name: formatted_message
+                  value: Podcast Manager stopped.
+              - column:
+                  name: logger_name
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: level_string
+                  value: WARN
+              - column:
+                  name: thread_name
+                  value: main
+              - column:
+                  name: caller_filename
+                  value: PodcastManager.java
+              - column:
+                  name: caller_class
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: caller_method
+                  value: <init>
+              - column:
+                  name: caller_line
+                  value: 56
+
+        - insert:
+            tableName: logging_event
+            columns:
+              - column:
+                  name: timestmp
+                  value: 1587340800000
+              - column:
+                  name: formatted_message
+                  value: Podcast Manager started up. 5
+              - column:
+                  name: logger_name
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: level_string
+                  value: DEBUG
+              - column:
+                  name: thread_name
+                  value: main
+              - column:
+                  name: caller_filename
+                  value: PodcastManager.java
+              - column:
+                  name: caller_class
+                  value: com.jbr.middletier.podcast.manage.PodcastManager
+              - column:
+                  name: caller_method
+                  value: <init>
+              - column:
+                  name: caller_line
+                  value: 56
+
+        - insert:
+            tableName: logging_event
+            columns:
+              - column:
+                  name: timestmp
+                  value: 1587340800000
+              - column:
+                  name: formatted_message
+                  value: Backup startup.
+              - column:
+                  name: logger_name
+                  value: com.jbr.middletier.backup.manage.BackupManager
+              - column:
+                  name: level_string
+                  value: DEBUG
+              - column:
+                  name: thread_name
+                  value: main
+              - column:
+                  name: caller_filename
+                  value: BackupManager.java
+              - column:
+                  name: caller_class
+                  value: com.jbr.middletier.podcast.manage.BackupManager
+              - column:
+                  name: caller_method
+                  value: <init>
+              - column:
+                  name: caller_line
+                  value: 56

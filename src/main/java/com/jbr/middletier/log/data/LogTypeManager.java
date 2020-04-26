@@ -1,5 +1,6 @@
 package com.jbr.middletier.log.data;
 
+import com.jbr.middletier.log.config.ApplicationProperties;
 import com.jbr.middletier.log.dataaccess.LogTypeEntryRepository;
 import com.jbr.middletier.log.dataaccess.LoggingEventExceptionRepository;
 import com.jbr.middletier.log.dataaccess.LoggingEventPropertyRepository;
@@ -11,6 +12,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import static com.jbr.middletier.log.dataaccess.LoggingEventSpecifications.logIsLikeClass;
 
@@ -24,17 +28,11 @@ public class LogTypeManager {
 
     final static private int MAX_LOG_DAYS = 5;
 
-    private final
-    LogTypeEntryRepository logTypeEntryRepository;
-
-    private final
-    LoggingEventRepository loggingEventRepository;
-
-    private final
-    LoggingEventExceptionRepository loggingEventExceptionRepository;
-
-    private final
-    LoggingEventPropertyRepository loggingEventPropertyRepository;
+    private final LogTypeEntryRepository            logTypeEntryRepository;
+    private final LoggingEventRepository            loggingEventRepository;
+    private final LoggingEventExceptionRepository   loggingEventExceptionRepository;
+    private final LoggingEventPropertyRepository    loggingEventPropertyRepository;
+    private final ApplicationProperties             applicationProperties;
 
     private Iterable<LogTypeEntry> logTypes;
     private Map<String,LogTypeStatus> status;
@@ -44,12 +42,14 @@ public class LogTypeManager {
     public LogTypeManager(LogTypeEntryRepository logTypeEntryRepository,
                           LoggingEventRepository loggingEventRepository,
                           LoggingEventExceptionRepository loggingEventExceptionRepository,
-                          LoggingEventPropertyRepository loggingEventPropertyRepository) {
+                          LoggingEventPropertyRepository loggingEventPropertyRepository,
+                          ApplicationProperties applicationProperties) {
         this.logTypes = null;
         this.logTypeEntryRepository = logTypeEntryRepository;
         this.loggingEventRepository = loggingEventRepository;
         this.loggingEventExceptionRepository = loggingEventExceptionRepository;
         this.loggingEventPropertyRepository = loggingEventPropertyRepository;
+        this.applicationProperties = applicationProperties;
     }
 
     private long getDateAsLog(Calendar date) {
@@ -178,6 +178,21 @@ public class LogTypeManager {
         dates = new ArrayList<>();
         Calendar cal = Calendar.getInstance();
         long maxTimeStamp;
+
+        if(applicationProperties.getCalendar() != null) {
+            try {
+                // Set the calendar date to the specified date (used for testing)
+                LOG.info("DATE IS NOT TODAY " + applicationProperties.getCalendar());
+
+                DateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+
+                Date date = formatter.parse(applicationProperties.getCalendar());
+
+                cal.setTime(date);
+            } catch (Exception ex) {
+
+            }
+        }
 
         for(int i = 0; i < MAX_LOG_DAYS; i++) {
             dates.add(getDateAsLog(cal));
