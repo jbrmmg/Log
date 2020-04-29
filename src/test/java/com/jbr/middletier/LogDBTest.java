@@ -22,10 +22,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.nio.charset.Charset;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 
 import static com.jbr.middletier.log.dataaccess.LoggingEventSpecifications.logIsAfter;
 import static com.jbr.middletier.log.dataaccess.LoggingEventSpecifications.logIsBetween;
@@ -56,6 +60,9 @@ public class LogDBTest {
     private LoggingEventRepository loggingEventRepository;
 
     @Autowired
+    private LogTypeEntryRepository logTypeEntryRepository;
+
+    @Autowired
     void setConverters(HttpMessageConverter<?>[] converters) {
 
         this.mappingJackson2HttpMessageConverter = Arrays.stream(converters)
@@ -72,36 +79,78 @@ public class LogDBTest {
         // Setup the mock web context.
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
 
-        // Log all the data that is in the Log Event table
-        Iterable<LoggingEvent> result =  loggingEventRepository.findAll(where(logIsAfter(0)),new Sort(Sort.Direction.ASC, "timeStamp"));
-
-        StringBuilder sb = new StringBuilder();
-
-        sb.append(System.getProperty("line.separator"));
-        sb.append("--------------------------------------------------------------------------");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("date,time,timestamp,level,seq,text,type");
-        sb.append(System.getProperty("line.separator"));
-
-        for(LoggingEvent nextEvent : result) {
-            sb.append(Long.toString(nextEvent.getDate()));
-            sb.append(",");
-            sb.append(nextEvent.getTime().toString());
-            sb.append(",");
-            sb.append(nextEvent.getTimeStampString());
-            sb.append(",");
-            sb.append(nextEvent.getLevel());
-            sb.append(",");
-            sb.append(Integer.toString(nextEvent.getSequence()));
-            sb.append(",");
-            sb.append(nextEvent.getText());
-            sb.append(",");
-            sb.append(nextEvent.getTypeId());
-            sb.append(System.getProperty("line.separator"));
+        // If there are already logging events, return.
+        Iterable<LoggingEvent> events = loggingEventRepository.findAll();
+        for(LoggingEvent nextEvent: events) {
+            return;
         }
-        sb.append(System.getProperty("line.separator"));
-        sb.append("--------------------------------------------------------------------------");
-        LOG.info(sb.toString());
+
+        // Setup the date information.
+        LocalDate newDate = LocalDate.now();
+        LocalDate nextDate = newDate.plus(1, ChronoUnit.DAYS);
+        LocalDate dateM1 = newDate.minusDays(1);
+        LocalDate dateM2 = newDate.minusDays(2);
+        LocalDate dateM3 = newDate.minusDays(3);
+        LocalDate dateM4 = newDate.minusDays(4);
+        LocalDate oldDate = newDate.minusDays(6);
+
+        Timestamp tsNewDate = Timestamp.valueOf(newDate.atStartOfDay());
+        Timestamp tsNextDate = Timestamp.valueOf(nextDate.atStartOfDay());
+        Timestamp tsDateM1 = Timestamp.valueOf(dateM1.atStartOfDay());
+        Timestamp tsDateM2 = Timestamp.valueOf(dateM2.atStartOfDay());
+        Timestamp tsDateM3 = Timestamp.valueOf(dateM3.atStartOfDay());
+        Timestamp tsDateM4 = Timestamp.valueOf(dateM4.atStartOfDay());
+        Timestamp tsOldDate = Timestamp.valueOf(oldDate.atStartOfDay());
+
+        LoggingEvent newEvent = new LoggingEvent();
+        newEvent.setTimeStamp(tsNewDate.getTime() + 90000);
+        newEvent.setFormattedMessage("Podcast Manager started up 2");
+        newEvent.setLoggerName("com.jbr.middletier.podcast.manage.PodcastManager");
+        newEvent.setLevelString("INFO");
+        newEvent.setThreadName("main");
+        newEvent.setCallerFilename("PodcastManager.java");
+        newEvent.setCallerClass("com.jbr.middletier.podcast.manage.PodcastManager");
+        newEvent.setCallerMethod("<init>");
+        newEvent.setCallerLine("56");
+
+        loggingEventRepository.save(newEvent);
+
+        newEvent = new LoggingEvent();
+        newEvent.setTimeStamp(tsNewDate.getTime() + 150000);
+        newEvent.setFormattedMessage("Podcast Manager initialising");
+        newEvent.setLoggerName("com.jbr.middletier.podcast.manage.PodcastManager");
+        newEvent.setLevelString("WARN");
+        newEvent.setThreadName("main");
+        newEvent.setCallerFilename("PodcastManager.java");
+        newEvent.setCallerClass("com.jbr.middletier.podcast.manage.PodcastManager");
+        newEvent.setCallerMethod("<init>");
+        newEvent.setCallerLine("56");
+
+        loggingEventRepository.save(newEvent);
+
+        newEvent = new LoggingEvent();
+        newEvent.setTimeStamp(tsNewDate.getTime());
+        newEvent.setFormattedMessage("Podcast Manager started up.");
+        newEvent.setLoggerName("com.jbr.middletier.podcast.manage.PodcastManager");
+        newEvent.setLevelString("WARN");
+        newEvent.setThreadName("main");
+        newEvent.setCallerFilename("PodcastManager.java");
+        newEvent.setCallerClass("com.jbr.middletier.podcast.manage.PodcastManager");
+        newEvent.setCallerMethod("<init>");
+        newEvent.setCallerLine("56");
+
+        loggingEventRepository.save(newEvent);
+
+        newEvent = new LoggingEvent();
+        newEvent.setTimeStamp(tsNewDate.getTime() + 150000);
+        newEvent.setFormattedMessage("Podcast Manager initialising");
+        newEvent.setLoggerName("com.jbr.middletier.podcast.manage.PodcastManager");
+        newEvent.setLevelString("WARN");
+        newEvent.setThreadName("main");
+        newEvent.setCallerFilename("PodcastManager.java");
+        newEvent.setCallerClass("com.jbr.middletier.podcast.manage.PodcastManager");
+        newEvent.setCallerMethod("<init>");
+        newEvent.setCallerLine("56");
     }
 
     private MediaType getContentType() {

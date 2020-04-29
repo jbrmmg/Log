@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: jason
+      changes:
+        - createTable:
+            tableName: log_type
+            columns:
+              - column:
+                  name: id
+                  type: char(5)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: image
+                  type: varchar(5000)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: class
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+

@@ -1,9 +1,6 @@
 package com.jbr.middletier.log.data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,6 +10,7 @@ import java.util.Date;
 public class LoggingEvent {
     @Id
     @Column(name="event_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long eventId;
 
     @Column(name="timestmp")
@@ -86,4 +84,40 @@ public class LoggingEvent {
     public int getSequence() { return (int)eventId; }
 
     public String getTimeStampString() { return Long.toString(this.timeStamp); }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public void setFormattedMessage(String formattedMessage) {
+        this.formattedMessage = formattedMessage;
+    }
+
+    public void setLoggerName (String loggerName) {
+        this.loggerName = loggerName;
+    }
+
+    public void setLevelString (String levelString) {
+        this.levelString = levelString;
+    }
+
+    public void setThreadName (String threadName) {
+        this.threadName = threadName;
+    }
+
+    public void setCallerFilename (String callerFilename) {
+        this.callerFilename = callerFilename;
+    }
+
+    public void setCallerClass (String callerClass) {
+        this.callerClass = callerClass;
+    }
+
+    public void setCallerMethod (String callerMethod) {
+        this.callerMethod = callerMethod;
+    }
+
+    public void setCallerLine (String callerLine) {
+        this.callerLine = callerLine;
+    }
 }

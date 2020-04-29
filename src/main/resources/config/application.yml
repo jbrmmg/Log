@@ -1,0 +1,33 @@
+logging:
+  level:
+    ROOT: INFO
+
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:h2:mem:test;INIT=CREATE SCHEMA IF NOT EXISTS TEST;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+
+  application:
+    name: Middle Tier Money (Debug)
+
+  h2:
+    console:
+      enabled: true
+      path: /h2
+      settings:
+        web-allow-others: true
+
+  liquibase:
+    default-schema:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+    contexts: default
+
+log:
+  db:
+    schedule:
+      rollover: 35 0 0 * * ?
