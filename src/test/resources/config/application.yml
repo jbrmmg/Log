@@ -25,4 +25,4 @@ log:
   db:
     schedule:
       rollover: 35 0 0 * * ?
-  calendar: 26Apr-2015
+  calendar: 26-Apr-2020
