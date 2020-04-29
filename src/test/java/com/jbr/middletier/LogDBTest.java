@@ -1,5 +1,6 @@
 package com.jbr.middletier;
 
+import com.jbr.middletier.log.config.ApplicationProperties;
 import com.jbr.middletier.log.data.ExternalLogTypeEntry;
 import com.jbr.middletier.log.data.LogTypeEntry;
 import com.jbr.middletier.log.data.LogTypeManager;
@@ -24,6 +25,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -61,6 +63,9 @@ public class LogDBTest {
 
     @Autowired
     private LogTypeEntryRepository logTypeEntryRepository;
+
+    @Autowired
+    private ApplicationProperties applicationProperties;
 
     @Autowired
     void setConverters(HttpMessageConverter<?>[] converters) {
@@ -170,8 +175,14 @@ public class LogDBTest {
                 .andExpect(jsonPath("$[0].name", is ("Test Log")));
     }
 
-    private Calendar getLogDate(int days) {
+    private Calendar getLogDate(int days) throws ParseException {
         Calendar cal = Calendar.getInstance();
+        DateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+
+        Date date = formatter.parse(applicationProperties.getCalendar());
+
+        cal.setTime(date);
+
         cal.add(Calendar.DAY_OF_YEAR, days);
 
         return cal;
