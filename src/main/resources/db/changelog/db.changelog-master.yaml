@@ -13,4 +13,7 @@ databaseChangeLog:
       file: /db/changelog/db.changelog-004-loggingeventproperty.yaml
 
   - include:
+      file: /db/changelog/db.changelog-998-dbgdata.yaml
+
+  - include:
       file: /db/changelog/db.changelog-999-testdata.yaml

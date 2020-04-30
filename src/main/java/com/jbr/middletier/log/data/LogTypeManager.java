@@ -69,6 +69,26 @@ public class LogTypeManager {
         // Get the types.
         this.logTypes = logTypeEntryRepository.findAll();
 
+        // Add an entry.
+        Calendar cal = Calendar.getInstance();
+        long timeStampNow = cal.getTimeInMillis();
+
+        timeStampNow /= 1000;
+        timeStampNow *= 1000;
+
+        LoggingEvent loggingEvent = new LoggingEvent();
+        loggingEvent.setTimeStamp(timeStampNow);
+        loggingEvent.setCallerLine("StartUp");
+        loggingEvent.setCallerMethod("initialise");
+        loggingEvent.setCallerClass("com.jbr.middletier.log.data.LogTypeManager");
+        loggingEvent.setCallerFilename("LogTypeManager.java");
+        loggingEvent.setThreadName("main");
+        loggingEvent.setLevelString("INFO");
+        loggingEvent.setLoggerName("");
+        loggingEvent.setFormattedMessage("Logger Starting Up");
+
+        loggingEventRepository.save(loggingEvent);
+
         // Setup the data.
         rolloverDate();
     }
