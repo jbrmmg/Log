@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: ${db.pdn.log.server}?autoReconnect=true&useSSL=false
-    username: ${db.log.money.user}
-    password: ${db.log.money.password}
+    username: ${db.pdn.general.user}
+    password: ${db.pdn.general.password}
 
   boot:
     admin:

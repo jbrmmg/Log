@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: ${db.dev.log.server}?autoReconnect=true&useSSL=false
-    username: ${db.dev.log.user}
-    password: ${db.dev.log.password}
+    username: ${db.dev.general.user}
+    password: ${db.dev.general.password}
 
   boot:
     admin:
