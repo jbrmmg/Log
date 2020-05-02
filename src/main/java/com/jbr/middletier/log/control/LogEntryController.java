@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Calendar;
 
@@ -29,7 +26,7 @@ import static com.jbr.middletier.log.dataaccess.LoggingEventSpecifications.logIs
  */
 
 @Controller
-@RequestMapping("/jbr/ext/log")
+@RequestMapping("/jbr")
 public class LogEntryController {
     final static private Logger LOG = LoggerFactory.getLogger(LogEntryController.class);
 
@@ -50,7 +47,7 @@ public class LogEntryController {
      * @param date The date in the format yyyymmdd
      * @param type The type of log being queried.
      */
-    @RequestMapping(path="/data", method= RequestMethod.GET)
+    @RequestMapping(path="/ext/log/data", method= RequestMethod.GET)
     public @ResponseBody
     Iterable<LoggingEvent> getLogData(@RequestParam(value="date", defaultValue="00000000") long date,
                                        @RequestParam(value="type", defaultValue="UNKN") String type) {
@@ -82,5 +79,21 @@ public class LogEntryController {
         LOG.info("Request for log {} from {} to {}.", type, from, to);
         return loggingEventRepository.findAll(Specification.where(logIsLikeClass(typeClass)).and(logIsBetween(from,to)), new Sort(Sort.Direction.ASC, "timeStamp"));
 
+    }
+
+    @RequestMapping(path="/ext/log/data", method= RequestMethod.POST)
+    public @ResponseBody LoggingEvent saveLogEntry ( @RequestBody LoggingEvent log ) {
+        // Find the log type for the given class
+        String type = logTypeManager.getTypeForClass(log.getCallerClass());
+        if(type == null) {
+            return null;
+        }
+
+        // Set the time stamp.
+        log.setTimeStamp(logTypeManager.getTimeStampNow());
+
+        LoggingEvent savedEvent = this.loggingEventRepository.save(log);
+
+        return savedEvent;
     }
 }
