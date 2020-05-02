@@ -55,6 +55,7 @@ public class LoggingEvent {
     @Column(name="caller_line")
     private String callerLine;
 
+
     public long getDate() {
         // Convert the timestamp to a date numeric.
         Calendar calendar = Calendar.getInstance();
@@ -63,8 +64,8 @@ public class LoggingEvent {
         return calendar.get(Calendar.YEAR) * 10000 + (calendar.get(Calendar.MONTH) + 1) * 100 + calendar.get(Calendar.DAY_OF_MONTH);
     }
 
-    public String getText() {
-        return formattedMessage;
+    public String getFormattedMessage() {
+        return this.formattedMessage;
     }
 
     public String getTypeId() { return callerClass; }
@@ -79,11 +80,13 @@ public class LoggingEvent {
         return java.sql.Time.valueOf(sdf.format(calendar.getTime()));
     }
 
-    public String getLevel() { return this.levelString; }
+    public String getLevelString() { return this.levelString; }
 
-    public int getSequence() { return (int)eventId; }
+    public int getEventId() { return (int)eventId; }
 
     public String getTimeStampString() { return Long.toString(this.timeStamp); }
+
+    public String getCallerClass() { return this.callerClass; }
 
     public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;

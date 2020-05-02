@@ -70,14 +70,8 @@ public class LogTypeManager {
         this.logTypes = logTypeEntryRepository.findAll();
 
         // Add an entry.
-        Calendar cal = Calendar.getInstance();
-        long timeStampNow = cal.getTimeInMillis();
-
-        timeStampNow /= 1000;
-        timeStampNow *= 1000;
-
         LoggingEvent loggingEvent = new LoggingEvent();
-        loggingEvent.setTimeStamp(timeStampNow);
+        loggingEvent.setTimeStamp(getTimeStampNow());
         loggingEvent.setCallerLine("StartUp");
         loggingEvent.setCallerMethod("initialise");
         loggingEvent.setCallerClass("com.jbr.middletier.log.data.LogTypeManager");
@@ -91,6 +85,16 @@ public class LogTypeManager {
 
         // Setup the data.
         rolloverDate();
+    }
+
+    public long getTimeStampNow() {
+        Calendar cal = Calendar.getInstance();
+        long timeStampNow = cal.getTimeInMillis();
+
+        timeStampNow /= 1000;
+        timeStampNow *= 1000;
+
+        return timeStampNow;
     }
 
     private String getResourceIntoString(String resourceName) {
@@ -127,6 +131,22 @@ public class LogTypeManager {
 
         LOG.warn("Unable to determine class {}", type);
         return "UnknownClass";
+    }
+
+    public String getTypeForClass(String className) {
+        if(className == null) {
+            LOG.warn("Null class name in getTypeForClass.");
+            return null;
+        }
+
+        for(LogTypeEntry nextEntry : this.logTypes) {
+            if(className.toLowerCase().startsWith(nextEntry.getLogClass().toLowerCase())) {
+                return nextEntry.getId();
+            }
+        }
+
+        LOG.warn("Unable to determine type {}", className);
+        return null;
     }
 
     public String getImage ( String type, String id ) {
