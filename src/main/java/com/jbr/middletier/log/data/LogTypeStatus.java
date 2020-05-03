@@ -9,7 +9,7 @@ class LogTypeStatus {
     private final String typeClass;
     private boolean active;
 
-    public LogTypeStatus ( LogTypeEntry logTypeEntry ) {
+    LogTypeStatus(LogTypeEntry logTypeEntry) {
         this.id = logTypeEntry.getId();
         this.logTypeEntry = logTypeEntry;
         this.typeClass = logTypeEntry.getLogClass();
@@ -20,17 +20,17 @@ class LogTypeStatus {
         return this.id;
     }
 
-    public String getTypeClass() { return this.typeClass; }
+    String getTypeClass() { return this.typeClass; }
 
-    public boolean isActive() {
+    boolean isActive() {
         return this.active;
     }
 
-    public LogTypeEntry logTypeEntry() {
+    LogTypeEntry logTypeEntry() {
         return this.logTypeEntry;
     }
 
-    public void setActive() {
+    void setActive() {
         this.active = true;
     }
 }

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
  * Created by jason on 07/12/16.
  */
 
-@SuppressWarnings("ALL")
 @Repository
 public interface LogTypeEntryRepository extends CrudRepository<LogTypeEntry, String> {
 }

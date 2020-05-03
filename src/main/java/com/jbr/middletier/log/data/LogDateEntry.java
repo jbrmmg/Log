@@ -7,7 +7,7 @@ public class LogDateEntry {
     private final String id;
     private final String name;
 
-    public LogDateEntry(Long id, String name) {
+    LogDateEntry(Long id, String name) {
         this.id = id.toString();
         this.name = name;
     }

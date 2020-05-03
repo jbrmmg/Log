@@ -3,10 +3,10 @@ package com.jbr.middletier.log.data;
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 @Entity
 @Table(name="logging_event")
+@SuppressWarnings({"unused", "FieldCanBeLocal", "SameParameterValue"})
 public class LoggingEvent {
     @Id
     @Column(name="event_id")
@@ -92,35 +92,35 @@ public class LoggingEvent {
         this.timeStamp = timeStamp;
     }
 
-    public void setFormattedMessage(String formattedMessage) {
+    void setFormattedMessage(String formattedMessage) {
         this.formattedMessage = formattedMessage;
     }
 
-    public void setLoggerName (String loggerName) {
+    void setLoggerName(String loggerName) {
         this.loggerName = loggerName;
     }
 
-    public void setLevelString (String levelString) {
+    void setLevelString(String levelString) {
         this.levelString = levelString;
     }
 
-    public void setThreadName (String threadName) {
+    void setThreadName(String threadName) {
         this.threadName = threadName;
     }
 
-    public void setCallerFilename (String callerFilename) {
+    void setCallerFilename(String callerFilename) {
         this.callerFilename = callerFilename;
     }
 
-    public void setCallerClass (String callerClass) {
+    void setCallerClass(String callerClass) {
         this.callerClass = callerClass;
     }
 
-    public void setCallerMethod (String callerMethod) {
+    void setCallerMethod(String callerMethod) {
         this.callerMethod = callerMethod;
     }
 
-    public void setCallerLine (String callerLine) {
+    void setCallerLine(String callerLine) {
         this.callerLine = callerLine;
     }
 }
