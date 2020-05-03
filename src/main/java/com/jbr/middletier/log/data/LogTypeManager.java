@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
-import java.io.*;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import static com.jbr.middletier.log.dataaccess.LoggingEventSpecifications.logIsLikeClass;
@@ -97,31 +95,6 @@ public class LogTypeManager {
         return timeStampNow;
     }
 
-    private String getResourceIntoString(String resourceName) {
-
-        StringBuilder result = new StringBuilder("");
-
-        try {
-            InputStream in = getClass().getResourceAsStream(resourceName);
-
-            if(in != null) {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    result.append(line);
-                }
-            } else {
-                LOG.warn("Unable to load resource {}", resourceName);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return result.toString();
-
-    }
-
     public String getClassForType(String type) {
         for(LogTypeEntry nextEntry : this.logTypes) {
             if(nextEntry.getId().equalsIgnoreCase(type)) {
@@ -149,39 +122,6 @@ public class LogTypeManager {
         return null;
     }
 
-    public String getImage ( String type, String id ) {
-        // If type image required, get from database data.
-        if(type.equalsIgnoreCase("type")) {
-            if(status.containsKey(id)) {
-                LOG.info("Return type image.");
-                return status.get(id).logTypeEntry().getImage();
-            }
-        }
-
-        // If the date image required, generate.
-        if(type.equalsIgnoreCase("date")) {
-            Long idValue = Long.parseLong(id);
-
-            // If the id is the same as the first date then use the today icon.
-            if(dates.get(0).equals(idValue)) {
-                LOG.info("Return today image.");
-                return getResourceIntoString("/image/today.svg");
-            } else {
-                // Which date is this?
-                for(int i = 1; i < dates.size(); i++ ) {
-                    if(dates.get(i).equals(idValue)) {
-                        LOG.info("Return previous day image.");
-                        return getResourceIntoString("/image/previousday.svg").replaceAll("##ID##","-" + Integer.toString(i));
-                    }
-                }
-            }
-        }
-
-
-        LOG.info("Return default image.");
-        return  getResourceIntoString("/image/questionmark.svg");
-    }
-
     public Iterable<ExternalLogTypeEntry> getLogTypes() {
         List<ExternalLogTypeEntry> activeTypes = new ArrayList<>();
 
@@ -199,7 +139,7 @@ public class LogTypeManager {
 
         int count = 0;
         for(Long nextDate : this.dates) {
-            String name = ( count == 0 ) ? "Today" : "Today - " + Integer.toString(count);
+            String name = ( count == 0 ) ? "Today" : "Today - " + count;
 
             dates.add(new LogDateEntry(nextDate,name));
 
@@ -207,10 +147,6 @@ public class LogTypeManager {
         }
 
         return dates;
-    }
-
-    public boolean isValidType(String type) {
-        return this.status.containsKey(type);
     }
 
     public void rolloverDate() {
@@ -230,7 +166,7 @@ public class LogTypeManager {
 
                 cal.setTime(date);
             } catch (Exception ex) {
-
+                LOG.warn("Failed to set the calendar from override.");
             }
         }
 

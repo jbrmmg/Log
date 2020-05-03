@@ -11,6 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="log_type")
+@SuppressWarnings({"unused", "FieldCanBeLocal", "SameParameterValue"})
 public class LogTypeEntry {
     @Id
     @Column(name="id")
@@ -37,9 +38,9 @@ public class LogTypeEntry {
         return logTypeName;
     }
 
-    public String getImage() { return logImage;}
+    String getImage() { return logImage;}
 
-    public String getLogClass() { return logClass; }
+    String getLogClass() { return logClass; }
 
     public void setId(String id) { this.id = id; }
 

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Calendar;
+import java.util.List;
 
 import static com.jbr.middletier.log.dataaccess.LoggingEventSpecifications.logIsBetween;
 import static com.jbr.middletier.log.dataaccess.LoggingEventSpecifications.logIsLikeClass;
@@ -49,7 +50,7 @@ public class LogEntryController {
      */
     @RequestMapping(path="/ext/log/data", method= RequestMethod.GET)
     public @ResponseBody
-    Iterable<LoggingEvent> getLogData(@RequestParam(value="date", defaultValue="00000000") long date,
+    List getLogData(@RequestParam(value="date", defaultValue="00000000") long date,
                                        @RequestParam(value="type", defaultValue="UNKN") String type) {
         // Convert the type specified to the class.
         String typeClass = logTypeManager.getClassForType(type);
@@ -63,6 +64,7 @@ public class LogEntryController {
         int day = (int)(date - month * 100);
 
         Calendar calendar = Calendar.getInstance();
+        //noinspection MagicConstant
         calendar.set(year, month - 1, day, 0, 0, 0);
 
         long from = calendar.getTimeInMillis();
@@ -77,6 +79,7 @@ public class LogEntryController {
 
 
         LOG.info("Request for log {} from {} to {}.", type, from, to);
+        //noinspection unchecked
         return loggingEventRepository.findAll(Specification.where(logIsLikeClass(typeClass)).and(logIsBetween(from,to)), new Sort(Sort.Direction.ASC, "timeStamp"));
 
     }
@@ -92,8 +95,6 @@ public class LogEntryController {
         // Set the time stamp.
         log.setTimeStamp(logTypeManager.getTimeStampNow());
 
-        LoggingEvent savedEvent = this.loggingEventRepository.save(log);
-
-        return savedEvent;
+        return this.loggingEventRepository.save(log);
     }
 }

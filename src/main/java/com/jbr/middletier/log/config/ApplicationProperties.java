@@ -2,7 +2,7 @@ package com.jbr.middletier.log.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix="log",ignoreUnknownFields = true)
+@ConfigurationProperties(prefix="log")
 public class ApplicationProperties {
     private String serviceName;
     private String calendar;
