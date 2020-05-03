@@ -11,21 +11,23 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="log_type")
+@SuppressWarnings({"unused", "FieldCanBeLocal", "SameParameterValue"})
 public class LogTypeEntry {
     @Id
-    @Column(name="log_type_id")
+    @Column(name="id")
     private String id;
 
-    @Column(name="log_name")
+    @Column(name="name")
     private String logTypeName;
 
-    @Column(name="log_image")
+    @Column(name="image")
     private String logImage;
 
-    @Column(name="log_class")
+    @Column(name="class")
     private String logClass;
 
-    protected LogTypeEntry() {
+    public LogTypeEntry() {
+
     }
 
     public String getId() {
@@ -36,7 +38,15 @@ public class LogTypeEntry {
         return logTypeName;
     }
 
-    public String getImage() { return logImage;}
+    String getImage() { return logImage;}
 
-    public String getLogClass() { return logClass; }
+    String getLogClass() { return logClass; }
+
+    public void setId(String id) { this.id = id; }
+
+    public void setName(String name) { this.logTypeName = name; }
+
+    public void setImage(String logImage) { this.logImage = logImage; }
+
+    public void setLogClass(String logClass) { this.logClass = logClass; }
 }

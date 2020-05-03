@@ -6,7 +6,7 @@ Description=JBR MiddleTier LogDB Service
 After=mysql.service
 
 [Service]
-ExecStart=/usr/bin/java -Xms768M -Xmx768M -Dspring.config.location=file:/usr/bin/jbr/MiddleTier-LogDB-PDN.properties -Dlogging.config=file:/usr/bin/jbr/MiddleTier-LogDB-PDN-log4j.xml -jar /usr/bin/jbr/MiddleTier-LogDB-onejar.jar
+ExecStart=/usr/bin/java -Xms768M -Xmx768M -Dspring.profiles.active=pdn  -jar /usr/bin/jbr/MiddleTier-LogDB-onejar.jar
 
 [Install]
 WantedBy=multi-user.target

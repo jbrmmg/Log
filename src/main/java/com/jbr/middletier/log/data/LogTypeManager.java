@@ -1,5 +1,6 @@
 package com.jbr.middletier.log.data;
 
+import com.jbr.middletier.log.config.ApplicationProperties;
 import com.jbr.middletier.log.dataaccess.LogTypeEntryRepository;
 import com.jbr.middletier.log.dataaccess.LoggingEventExceptionRepository;
 import com.jbr.middletier.log.dataaccess.LoggingEventPropertyRepository;
@@ -10,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
-import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import static com.jbr.middletier.log.dataaccess.LoggingEventSpecifications.logIsLikeClass;
 
@@ -24,17 +26,11 @@ public class LogTypeManager {
 
     final static private int MAX_LOG_DAYS = 5;
 
-    private final
-    LogTypeEntryRepository logTypeEntryRepository;
-
-    private final
-    LoggingEventRepository loggingEventRepository;
-
-    private final
-    LoggingEventExceptionRepository loggingEventExceptionRepository;
-
-    private final
-    LoggingEventPropertyRepository loggingEventPropertyRepository;
+    private final LogTypeEntryRepository            logTypeEntryRepository;
+    private final LoggingEventRepository            loggingEventRepository;
+    private final LoggingEventExceptionRepository   loggingEventExceptionRepository;
+    private final LoggingEventPropertyRepository    loggingEventPropertyRepository;
+    private final ApplicationProperties             applicationProperties;
 
     private Iterable<LogTypeEntry> logTypes;
     private Map<String,LogTypeStatus> status;
@@ -44,12 +40,14 @@ public class LogTypeManager {
     public LogTypeManager(LogTypeEntryRepository logTypeEntryRepository,
                           LoggingEventRepository loggingEventRepository,
                           LoggingEventExceptionRepository loggingEventExceptionRepository,
-                          LoggingEventPropertyRepository loggingEventPropertyRepository) {
+                          LoggingEventPropertyRepository loggingEventPropertyRepository,
+                          ApplicationProperties applicationProperties) {
         this.logTypes = null;
         this.logTypeEntryRepository = logTypeEntryRepository;
         this.loggingEventRepository = loggingEventRepository;
         this.loggingEventExceptionRepository = loggingEventExceptionRepository;
         this.loggingEventPropertyRepository = loggingEventPropertyRepository;
+        this.applicationProperties = applicationProperties;
     }
 
     private long getDateAsLog(Calendar date) {
@@ -69,33 +67,32 @@ public class LogTypeManager {
         // Get the types.
         this.logTypes = logTypeEntryRepository.findAll();
 
+        // Add an entry.
+        LoggingEvent loggingEvent = new LoggingEvent();
+        loggingEvent.setTimeStamp(getTimeStampNow());
+        loggingEvent.setCallerLine("StartUp");
+        loggingEvent.setCallerMethod("initialise");
+        loggingEvent.setCallerClass("com.jbr.middletier.log.data.LogTypeManager");
+        loggingEvent.setCallerFilename("LogTypeManager.java");
+        loggingEvent.setThreadName("main");
+        loggingEvent.setLevelString("INFO");
+        loggingEvent.setLoggerName("");
+        loggingEvent.setFormattedMessage("Logger Starting Up");
+
+        loggingEventRepository.save(loggingEvent);
+
         // Setup the data.
         rolloverDate();
     }
 
-    private String getResourceIntoString(String resourceName) {
+    public long getTimeStampNow() {
+        Calendar cal = Calendar.getInstance();
+        long timeStampNow = cal.getTimeInMillis();
 
-        StringBuilder result = new StringBuilder("");
+        timeStampNow /= 1000;
+        timeStampNow *= 1000;
 
-        try {
-            InputStream in = getClass().getResourceAsStream(resourceName);
-
-            if(in != null) {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    result.append(line);
-                }
-            } else {
-                LOG.warn("Unable to load resource {}", resourceName);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return result.toString();
-
+        return timeStampNow;
     }
 
     public String getClassForType(String type) {
@@ -109,37 +106,20 @@ public class LogTypeManager {
         return "UnknownClass";
     }
 
-    public String getImage ( String type, String id ) {
-        // If type image required, get from database data.
-        if(type.equalsIgnoreCase("type")) {
-            if(status.containsKey(id)) {
-                LOG.info("Return type image.");
-                return status.get(id).logTypeEntry().getImage();
+    public String getTypeForClass(String className) {
+        if(className == null) {
+            LOG.warn("Null class name in getTypeForClass.");
+            return null;
+        }
+
+        for(LogTypeEntry nextEntry : this.logTypes) {
+            if(className.toLowerCase().startsWith(nextEntry.getLogClass().toLowerCase())) {
+                return nextEntry.getId();
             }
         }
 
-        // If the date image required, generate.
-        if(type.equalsIgnoreCase("date")) {
-            Long idValue = Long.parseLong(id);
-
-            // If the id is the same as the first date then use the today icon.
-            if(dates.get(0).equals(idValue)) {
-                LOG.info("Return today image.");
-                return getResourceIntoString("/image/today.svg");
-            } else {
-                // Which date is this?
-                for(int i = 1; i < dates.size(); i++ ) {
-                    if(dates.get(i).equals(idValue)) {
-                        LOG.info("Return previous day image.");
-                        return getResourceIntoString("/image/previousday.svg").replaceAll("##ID##","-" + Integer.toString(i));
-                    }
-                }
-            }
-        }
-
-
-        LOG.info("Return default image.");
-        return  getResourceIntoString("/image/questionmark.svg");
+        LOG.warn("Unable to determine type {}", className);
+        return null;
     }
 
     public Iterable<ExternalLogTypeEntry> getLogTypes() {
@@ -159,7 +139,7 @@ public class LogTypeManager {
 
         int count = 0;
         for(Long nextDate : this.dates) {
-            String name = ( count == 0 ) ? "Today" : "Today - " + Integer.toString(count);
+            String name = ( count == 0 ) ? "Today" : "Today - " + count;
 
             dates.add(new LogDateEntry(nextDate,name));
 
@@ -169,15 +149,26 @@ public class LogTypeManager {
         return dates;
     }
 
-    public boolean isValidType(String type) {
-        return this.status.containsKey(type);
-    }
-
     public void rolloverDate() {
         // Setup the date values that are valid.
         dates = new ArrayList<>();
         Calendar cal = Calendar.getInstance();
         long maxTimeStamp;
+
+        if(applicationProperties.getCalendar() != null) {
+            try {
+                // Set the calendar date to the specified date (used for testing)
+                LOG.info("DATE IS NOT TODAY " + applicationProperties.getCalendar());
+
+                DateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+
+                Date date = formatter.parse(applicationProperties.getCalendar());
+
+                cal.setTime(date);
+            } catch (Exception ex) {
+                LOG.warn("Failed to set the calendar from override.");
+            }
+        }
 
         for(int i = 0; i < MAX_LOG_DAYS; i++) {
             dates.add(getDateAsLog(cal));

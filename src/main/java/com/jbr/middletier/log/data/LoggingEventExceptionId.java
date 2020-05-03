@@ -1,19 +1,25 @@
 package com.jbr.middletier.log.data;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Embeddable
 public class LoggingEventExceptionId  implements Serializable {
+    @NotNull
+    @Column(name="event_id")
     private long eventId;
+
+    @NotNull
+    @Column(name="i")
     private int  i;
 
-    public LoggingEventExceptionId(long eventId, int i) {
+    public LoggingEventExceptionId(long eventId, int i)
+    {
         this.eventId = eventId;
         this.i = i;
-    }
-
-    public LoggingEventExceptionId()
-    {
     }
 
     @Override

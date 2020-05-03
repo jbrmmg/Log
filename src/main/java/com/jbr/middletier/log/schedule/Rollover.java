@@ -23,7 +23,7 @@ public class Rollover {
         this.logTypeManager = logTypeManager;
     }
 
-    @Scheduled(cron = "${middle.tier.log.db.schedule.rollover}")
+    @Scheduled(cron = "${log.db.schedule.rollover}")
     public void rolloverDate() {
         LOG.info("Date rolled.");
         logTypeManager.rolloverDate();

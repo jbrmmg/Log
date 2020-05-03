@@ -12,8 +12,4 @@ public class LoggingEventSpecifications {
     public static Specification<LoggingEvent> logIsBetween(long from, long to) {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.between(root.get("timeStamp"), from, to);
     }
-
-    public static Specification<LoggingEvent> logIsAfter(long from) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.greaterThan(root.get("timeStamp"), from);
-    }
 }

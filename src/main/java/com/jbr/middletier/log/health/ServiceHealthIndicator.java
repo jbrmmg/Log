@@ -1,11 +1,11 @@
 package com.jbr.middletier.log.health;
 
+import com.jbr.middletier.log.config.ApplicationProperties;
 import com.jbr.middletier.log.data.LogTypeEntry;
 import com.jbr.middletier.log.dataaccess.LogTypeEntryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.stereotype.Component;
@@ -20,15 +20,17 @@ import java.util.List;
 public class ServiceHealthIndicator implements HealthIndicator {
     final static private Logger LOG = LoggerFactory.getLogger(ServiceHealthIndicator.class);
 
-    @Value("${middle.tier.service.name}")
-    private String serviceName;
-
     private final
     LogTypeEntryRepository logTypeEntryRepository;
 
+    private final ApplicationProperties applicationProperties;
+
     @Autowired
-    public ServiceHealthIndicator(LogTypeEntryRepository logTypeEntryRepository) {
+    public ServiceHealthIndicator(
+            LogTypeEntryRepository logTypeEntryRepository,
+            ApplicationProperties applicationProperties ) {
         this.logTypeEntryRepository = logTypeEntryRepository;
+        this.applicationProperties = applicationProperties;
     }
 
     @Override
@@ -37,11 +39,11 @@ public class ServiceHealthIndicator implements HealthIndicator {
             List<LogTypeEntry> logTypeList = (List<LogTypeEntry>) logTypeEntryRepository.findAll();
             LOG.info(String.format("Check Database %s.", logTypeList.size()));
 
-            return Health.up().withDetail("service", serviceName).withDetail("Log Types",logTypeList.size()).build();
+            return Health.up().withDetail("service", applicationProperties.getServiceName()).withDetail("Log Types",logTypeList.size()).build();
         } catch (Exception e) {
             LOG.error("Failed to check health",e);
         }
 
-        return Health.down().withDetail("service", serviceName).build();
+        return Health.down().withDetail("service", applicationProperties.getServiceName()).build();
     }
 }

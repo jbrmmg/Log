@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: jason
+      changes:
+        - createTable:
+            tableName: logging_event_exception
+            columns:
+              - column:
+                  name: event_id
+                  type: bigint(20)
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: i
+                  type: smallint(6)
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: trace_line
+                  type: varchar(254)
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            constraintName: logging_event_exception_ibfk_1
+            baseTableName: logging_event_exception
+            baseColumnNames: event_id
+            referencedTableName: logging_event
+            referencedColumnNames: event_id

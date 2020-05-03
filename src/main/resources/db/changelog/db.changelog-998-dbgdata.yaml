@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: 998
+      author: jason
+      context: dbg
+      changes:
+
+        - insert:
+            tableName: log_type
+            columns:
+              - column:
+                  name: id
+                  value: LOGDB
+              - column:
+                  name: name
+                  value: Log
+              - column:
+                  name: image
+                  value: <svg/>
+              - column:
+                  name: class
+                  value: com.jbr.middletier.log.

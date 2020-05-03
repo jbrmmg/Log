@@ -1,0 +1,73 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: jason
+      changes:
+        - createTable:
+            tableName: logging_event
+            columns:
+              - column:
+                  name: timestmp
+                  type: bigint(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: formatted_message
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: logger_name
+                  type: varchar(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: level_string
+                  type: varchar(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: thread_name
+                  type: varchar(254)
+              - column:
+                  name: reference_flag
+                  type: smallint(6)
+              - column:
+                  name: arg0
+                  type: varchar(254)
+              - column:
+                  name: arg1
+                  type: varchar(254)
+              - column:
+                  name: arg2
+                  type: varchar(254)
+              - column:
+                  name: arg3
+                  type: varchar(254)
+              - column:
+                  name: caller_filename
+                  type: varchar(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: caller_class
+                  type: varchar(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: caller_method
+                  type: varchar(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: caller_line
+                  type: varchar(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: event_id
+                  type: bigint(20)
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false

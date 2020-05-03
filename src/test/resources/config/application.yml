@@ -1,0 +1,28 @@
+logging:
+  level:
+    ROOT: INFO
+    com.jbr.middletier: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
+
+spring:
+
+  liquibase:
+    default-schema:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+    contexts: test
+
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+
+server:
+  port: 13001
+
+log:
+  service-name: Middle Tier TEST
+  db:
+    schedule:
+      rollover: 35 0 0 * * ?
+  calendar: 26-Apr-2020
