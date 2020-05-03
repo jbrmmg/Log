@@ -86,6 +86,8 @@ public class LogEntryController {
 
     @RequestMapping(path="/int/log/data", method= RequestMethod.POST)
     public @ResponseBody LoggingEvent saveLogEntry ( @RequestBody LoggingEvent log ) {
+        LOG.info("Log Entry: " + log.getLevelString() + ":" + log.getFormattedMessage());
+
         // Find the log type for the given class
         String type = logTypeManager.getTypeForClass(log.getCallerClass());
         if(type == null) {
