@@ -18,4 +18,4 @@ server:
   port: 13001
 
 log:
-  service-name: Middle Tier DBG
+  service-name: middletier-logdb-dbg
