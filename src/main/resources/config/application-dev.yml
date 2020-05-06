@@ -26,7 +26,7 @@ server:
   port: 10001
 
 log:
-  service-name: "Middle Tier Development"
+  service-name: middletier-logdb-dev
 
 info:
   app:

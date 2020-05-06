@@ -27,7 +27,7 @@ server:
   port: 12001
 
 log:
-  service-name: "Middle Tier Production"
+  service-name: middletier-logdb
 
 info:
   app:
