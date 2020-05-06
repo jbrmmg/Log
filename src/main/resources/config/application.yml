@@ -31,3 +31,21 @@ log:
   db:
     schedule:
       rollover: 35 0 0 * * ?
+
+management:
+  endpoint:
+    health:
+      show-details: always
+
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  security:
+    enabled: false
+
+info:
+  app:
+    name: "Log DB"
+    description: "Used for web logging"
